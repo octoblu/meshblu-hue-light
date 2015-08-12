@@ -1,2 +1,3 @@
-# meshblu-hue-light
-A single Philips Hue light bulb for Meshblu
+# meshblu-hue
+
+Meshblu hue connector. Works well with [Gateblu](https://gateblu.octoblu.com) devices;
