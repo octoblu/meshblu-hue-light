@@ -1,0 +1,36 @@
+language: node_js
+node_js:
+- '0.10'
+before_install:
+  - npm install npm -g
+before_deploy:
+  - npm install ws browserify coffeeify
+  - mkdir -p deploy/meshblu-hue-light/latest
+  - mkdir -p deploy/meshblu-hue-light/$TRAVIS_TAG
+  - node_modules/.bin/browserify -t coffeeify -s Connector connector.js > deploy/meshblu-hue-light/latest/meshblu-hue-light.js
+  - gzip deploy/meshblu-hue-light/latest/meshblu-hue-light.js
+  - mv deploy/meshblu-hue-light/latest/meshblu-hue-light.js.gz deploy/meshblu-hue-light/latest/meshblu-hue-light.js
+  - cp deploy/meshblu-hue-light/latest/meshblu-hue-light.js deploy/meshblu-hue-light/$TRAVIS_TAG/meshblu-hue-light.js
+deploy:
+  - provider: s3
+    region: us-west-2
+    skip_cleanup: true
+    detect_encoding: true
+    access_key_id: AKIAJH2D5IPIRHYJT5IA
+    secret_access_key:
+      secure: "GSuORv6pJvoqCeFuPpFSo7Z+kQAjsEDuIwDCSK3vMcWJSad66uclu/I8sZIHTS8EpbV9SrZj3hdTvxrFEZ3kM5lbGSQCfca4ywhJQaTLlExoLvHpI0JQWNJvAaJvYgxdEMoInro3zcM0/hj/ZqY97tKvaBa8jdh7cASn/8+dcdb85vMTVda2N30HcJXZlp4HeZlfqkHQvYNKp508/178mzBnujIkn1j9G/+sUfxBSrgRWzTYkdkCEPFnI4ftOZCI1LJoIDTNdmSqPLOPCw/toq1eOkzPjo45nqZw7Ow4LmYIBI5lnxRJX7LuBehlwAN2w9IYb/L+lWBKJgdJ+HZgW9blxvDr+m453YPJ5TZphgg77G3Zb2OqY0q/R4/U3LKAO6+GjEi5nWN9w6aawVZZ+VUInEdltdybJHCJOr9HUpVUO+79lYeXUZVZhbmpggzjT6t8tBCLLpReeXYLrXeRxWlKmQJ+bLyySrZkpRcrsVXRAkPtm7VJeRdyuA44sfPuhbz+v1QnSmJvlTuWhvcQA6nOcpAGQOqTNzFZyQSbxD+vfU53PX81CjLXo7OyQhoaSKv12tnqJgTCrOdS3pPMrXGIZYzvfoIy5yTPET0Oglm3YkegKtRA5xGGsz3gIfY/nwx3AhMEZ8HyWHB1s84N55e1pYLA19IUn2lW0K1X4II="
+    bucket: octoblu-cdn
+    local-dir: deploy
+    upload-dir: js
+    on:
+      tags: true
+      all_branches: true
+  - provider: npm
+    skip_cleanup: true
+    clean_up: false
+    email: serveradmin@octoblu.com
+    api_key:
+      secure: "miJuAEVmtbEfDvflUa/MmJ9nkgxrzdw6sL9OgFryYkhizL1xF9phOU1hH0DPLCiqBCI9Bg9p6blC8NH1jzSAKnLz8Wy3kj4t7GtjCphHEZ8YgD1iGF3NKsLo5ejaHhAS8wPPlB6msWop/Rn+EnQ7Iw1Re2v3F9NR6Jb4EsixwpPY+DkilTU1G8W39vzc4mEYLQ1W4cxjAN9fFpKOXpXaHaJ5a6XbRV2XRr7Eru6oeOuT3YpdGE7HkUiLpWEQaxWDaVyUQnR01u9QsHZrJBOPAeEP0DlYoC9RKWTYOXBFThSQGMrB+cIvj4qexjqtvti5geuc1OcEZ+VFNAzOK7RvNBwnJ6teU0JGCB+opsGeN7M9VSjFc5NWfRKmv4PUCrTMlhJqMLDDf3dzWF6c8TX7fcIpRq8+pnFG0I4Fk+PRRIHxpIBU1Pz2qg3DAoc5GVfoyPD6Ci4rR+tF4U/GhloirwwFCFjNK/ewY77BdCjrLzgFoHobgep1QUyq+8uJmoZjxR8/Ic3b45oRfjPuXl3oXkeVZ7E1z+5fWRapoIOd5/JZZF3kw7PHD/k4MJl50heybMkIn916RCZYlSRbcPEdFcck0uW6KgKJmt7xoTJgkycHS3W/w1o4zgpvMqizb/npuK3ewkUgjNauV9nuISTb5uU0CFa/VP57o6r9XedYCcI="
+    on:
+      tags: true
+      all_branches: true
