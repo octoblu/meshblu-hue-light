@@ -1,6 +1,12 @@
 ## meshblu-hue-light
 
-Meshblu hue connector. Works well with [Gateblu](https://gateblu.octoblu.com) devices;.
+[![Build Status](https://travis-ci.org/octoblu/meshblu-hue-light.svg?branch=master)](https://travis-ci.org/octoblu/meshblu-hue-light)
+[![Code Climate](https://codeclimate.com/github/octoblu/meshblu-hue-light/badges/gpa.svg)](https://codeclimate.com/github/octoblu/meshblu-hue-light)
+[![Test Coverage](https://codeclimate.com/github/octoblu/meshblu-hue-light/badges/coverage.svg)](https://codeclimate.com/github/octoblu/meshblu-hue-light)
+[![npm version](https://badge.fury.io/js/meshblu-hue-light.svg)](http://badge.fury.io/js/meshblu-hue-light)
+[![Gitter](https://badges.gitter.im/octoblu/help.svg)](https://gitter.im/octoblu/help)
+
+A Meshblu connector for use in Octoblu or with other services.
 
 ### Setup Instructions
 
