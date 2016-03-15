@@ -50,6 +50,7 @@ class Plugin extends EventEmitter
 
   onMessage: (message) =>
     debug 'on message', message
+    return debug 'broadcast - no actions' if '*' in message.devices
     payload = message.payload
     @updateHue payload
 
@@ -80,7 +81,7 @@ class Plugin extends EventEmitter
     payload.userGroup = @options.userGroup ? false
     return console.error 'no light number' unless payload.lightNumber?
     @hue.changeLights payload, (error, response) =>
-      return @emit 'message', devices: ['*'], topic: 'error', payload: error: error if error?
+      return console.error error if error?
       @emit 'message', devices: ['*'], payload: response: response
 
 module.exports =
